@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,9 +7,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //import components
 import NotesPage from './components/NotesPage';
+import DetailsPage from './components/DetailsPage';
 
 
-const HomePage = ( {navigation} ) => {
+const HomePage = ( {navigation, route} ) => {
+
+  const myList = [{key:1, name:'Anna'}, {key:2, name:'Bob'}]
+
+  function handleButton(item){
+    navigation.navigate('Details', {message:item})
+  }
 
   return (
     <View style={styles.container}>
@@ -21,6 +28,16 @@ const HomePage = ( {navigation} ) => {
           navigation.navigate('Notes')}
           />
 
+          <Button style={styles.buttons}
+          title='Go to Details page'
+          onPress={() =>
+          navigation.navigate('Details')}
+          />
+
+          <FlatList 
+          data={myList}
+          renderItem={(note) => <Button title={note.item.name} onPress={() => handleButton(note.item)} />  }
+          />
 
       </View>
 
@@ -39,6 +56,8 @@ const App = () => {
       <Stack.Screen name='Home' component={HomePage}/>
 
       <Stack.Screen name="Notes" component={NotesPage} />
+
+      <Stack.Screen name="Details" component={DetailsPage} />
 
 
     </Stack.Navigator>

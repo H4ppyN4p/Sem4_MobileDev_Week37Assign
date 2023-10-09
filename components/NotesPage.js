@@ -1,13 +1,19 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
 
 import { useState } from 'react';
 
 const NotesPage = () => {
 
     const [text, setText] = useState('')
+    const [notes, setNotes] = useState([])
+
+
   
     function buttonHandler(){
-      alert(text)
+      //alert(text)
+      setNotes(
+        [...notes, {key:notes.length, name:text}]
+      )
     }
   
     return (
@@ -15,7 +21,11 @@ const NotesPage = () => {
         <Button title='Press Me' onPress={buttonHandler}/>
         <TextInput style={styles.TextInput} onChangeText={(txt) => setText(txt)}/>
         <Text>This is the AboutMe section</Text>
-        <Text>Some about me text</Text>
+        <Text>Some about me textt</Text>
+        <FlatList 
+          data={notes}
+          renderItem={(note) => <Text>{note.item.name}</Text>}
+        />
       </View>
     )
   }
